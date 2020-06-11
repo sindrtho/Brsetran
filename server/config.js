@@ -15,6 +15,20 @@ let config =
             }
             return next();
         }
+    },
+    test: {
+        connectionLimit: 2,
+        host: 'localhost',
+        user: 'set user in private.config.js',
+        password: 'set password in private.config.js',
+        database: 'brtest',
+        debug: false,
+        typeCast(field, next) {
+            if(field.type == 'DATETIME') {
+                return new Date(field.string() + 'Z');
+            }
+            return next();
+        }
     }
 
 };
