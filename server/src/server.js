@@ -21,6 +21,7 @@ export function create_app(pool) {
 		});
 	});
 
+	// Hent alle oppdrag
 	app.get("/oppdrag", (req, res) => {
 		oppdragdao.getAll((status, data) => {
 			res.status(status);
