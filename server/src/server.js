@@ -2,13 +2,19 @@ import express from 'express';
 import config from '../config.js';
 import AdminDao from './dao/adminDao.js';
 import OppdragDao from './dao/oppdragDao.js';
+import path from 'path';
+import bodyParser from 'body-parser';
 
 export function create_app(pool) {
 	const app = express();
 
+	const publicpath = path.join(__dirname, '/../../client/public');
+
 	const admindao = new AdminDao(pool);
 	const oppdragdao = new OppdragDao(pool);
 
+	app.use(express.static(publicpath));
+	
 	// Finn administrator
 	app.get('/admin/:id', (req, res) => {
 		admindao.getOne(req.params.id, (status, data) => {
@@ -22,7 +28,7 @@ export function create_app(pool) {
 	});
 
 	// Hent alle oppdrag
-	app.get("/oppdrag", (req, res) => {
+	app.get("/mission", (req, res) => {
 		oppdragdao.getAll((status, data) => {
 			res.status(status);
 			res.json(data);
@@ -30,7 +36,7 @@ export function create_app(pool) {
 	});
 
 	// Hent ett oppdrag
-	app.get("/oppdrag/:id", (req, res) => {
+	app.get("/mission/:id", (req, res) => {
 		oppdragdao.getOne(req.params.id, (status, data) => {
 			res.status(status);
 			res.json(data);
@@ -38,7 +44,7 @@ export function create_app(pool) {
 	});
 
 	// Nytt oppdrag
-	app.post('/oppdrag', (req, res) => {
+	app.post('/mission', (req, res) => {
 		let newAssignment = {
 			'beskrivelse': req.body.beskrivelse,
 			'kunde_id': req.body.kunde_id,
@@ -52,11 +58,15 @@ export function create_app(pool) {
 	});
 
 	// Oppdrag er ferdig
-	app.put('/oppdrag/:id/ferdig', (req, res) => {
+	app.put('/mission/:id/ferdig', (req, res) => {
 		oppdragdao.doneAssignment(req.params.id, (status, data) => {
 			res.status(status);
 			res.json(data);
 		});
+	});
+
+	app.get('*', (req, res) => {
+		res.sendFile(path.join(publicpath, 'index.html'));
 	});
 
 	return app;

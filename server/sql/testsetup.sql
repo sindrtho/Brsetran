@@ -12,11 +12,11 @@ DROP TABLE IF EXISTS sjafor;
 
 CREATE TABLE sjafor(
 	sjafor_id INT PRIMARY KEY AUTO_INCREMENT,
-	username VARCHAR(30) UNIQUE NOT NULL,
-	password VARCHAR(64),
+	brukernavn VARCHAR(30) UNIQUE NOT NULL,
+	passord VARCHAR(64),
 	salt VARCHAR(128) UNIQUE NOT NULL,
-	first_name VARCHAR(32) NOT NULL,
-	last_name VARCHAR(32) NOT NULL,
+	sjafor_fornavn VARCHAR(32) NOT NULL,
+	sjafor_etternavn VARCHAR(32) NOT NULL,
 	tlf VARCHAR(20)
 );
 
@@ -28,7 +28,7 @@ CREATE TABLE admin(
 
 CREATE TABLE kunde(
 	kunde_id INT PRIMARY KEY AUTO_INCREMENT,
-	navn VARCHAR(64) UNIQUE NOT NULL,
+	kunde_navn VARCHAR(64) UNIQUE NOT NULL,
 	telefon VARCHAR(12),
 	email VARCHAR(128),
 	adresse VARCHAR(128),
@@ -67,32 +67,35 @@ BEFORE INSERT ON oppdrag
 FOR EACH ROW
 	SET NEW.dato_mottatt=date(now());
 
-INSERT INTO sjafor (username, password, salt, first_name, last_name, tlf) VALUES
-	('a', 'b', 'c', 'd', 'e', '12345678'),
-	('dsf', 'ergds', 'aewrfas', 'vdsbds', 'bhfs', '64973185'),
-	('yrnf', 'xvzdrtr', 'sdht', 'waefdv', 'vrtsg', '12378954'),
-	('asdjfgasu', 'awiygf', 'casid', 'zqfsgdf', 'bfsdfvs', '95175364'),
-	('aufirrv', 'adiucgaui', 'acsuiui', 'csd', 'sgrg', '12398766');
+INSERT INTO sjafor (brukernavn, passord, salt, sjafor_fornavn, sjafor_etternavn, tlf) VALUES
+	('perols', 'qwerty', 'c', 'Per', 'Olsen', '12345678'),
+	('geisæt', 'qwerty', 's', 'Geir', 'Sætran', '64973185'),
+	('sintho', 'qwerty', 't', 'Sindre', 'Thomassen', '12378954'),
+	('arnsæt', 'qwerty', 'd', 'Arnt', 'Sætran', '95175364'),
+	('leihel', 'qwerty', 'i', 'Leif', 'Helge', '12398766');
 
 INSERT INTO admin VALUES (2);
 
-INSERT INTO kunde (navn, telefon, email, adresse, postnummer, kommune) VALUES
-	('sdfasdd', 'assdf', 'sdfasfd', 'dsfasdasdg', '3124', 'dsaffaafsgsa'),
-	('sdfasdf', 'assdf', 'sdfasfd', 'dsfasdasdg', '3124', 'dsaffaafsgsa'),
-	('sdfasdg', 'assdf', 'sdfasfd', 'dsfasdasdg', '3124', 'dsaffaafsgsa'),
-	('sdfasdh', 'assdf', 'sdfasfd', 'dsfasdasdg', '3124', 'dsaffaafsgsa'),
-	('sdfasdj', 'assdf', 'sdfasfd', 'dsfasdasdg', '3124', 'dsaffaafsgsa');
+INSERT INTO kunde (kunde_navn, telefon, email, adresse, postnummer, kommune) VALUES
+	('Trelastlageret', '90221784', 'tre@last.lageret', 'Smøla hopen', '3124', 'Smøla'),
+	('Smøla Vindu', '90221784', 'smøla@vindu.no', 'Smølavindu', '3124', 'Smøla'),
+	('Hopen Kirke', '90221784', 'kirke@hopen.smøla', 'Hopen', '3124', 'Smøla'),
+	('Gurisentert', '90221784', 'guri@senteret.no', 'Edøy', '3124', 'Smøla'),
+	('Smøla Kommune', '90221784', 'mail@smøla.kommune', 'Hopen', '3124', 'Smøla');
 
 INSERT INTO oppdrag (beskrivelse, kunde_id, sjafor_id, fra, til) VALUES
-	('a', 3, 1, 'sdfasfd', 'dsfasdasdg'),
-	('sadfd', 1, 3, 'sdfasfd', 'dsfasdasdg'),
-	('sdfaasiug', 4, 1, 'sdfasfd', 'dsfasdasdg'),
-	('fsiu', 2, 2, 'sdfasfd', 'dsfasdasdg'),
-	('sdfaasiug', 4, 1, 'sdfasfd', 'dsfasdasdg'),
-	('fsiu', 2, 2, 'sdfasfd', 'dsfasdasdg'),
-	('sdfiausg', 1, 5, 'sdfasfd', 'dsfasdasdg');
+	('Kjøre materialer for kirke ritualer', 3, 1, 'Fredrikstad', 'Smøla'),
+	('3 paller med planker til Trondheim', 1, 3, 'Smøla', 'Trondheim'),
+	('Materialer til gurispelet', 4, 1, 'Molde', 'Smøla'),
+	('25x vindu til Edøya', 2, 2, 'Smøla', 'Smøla'),
+	('Søppel må vekk!', 4, 1, 'Smøla', 'Ålesund'),
+	('3x vinduer til Trondheim', 2, 2, 'Smøla', 'Trondheim'),
+	('Søppel etter gudstjeneste må fjernes', 1, 5, 'Smøla', 'Ålesund');
 
 INSERT INTO oppdrag (beskrivelse, kunde_id, sjafor_id, fra, til, utfort) VALUES
-	('fsdhgf', 3, 1, 'sdfasfd', 'dsfasdasdg', true),
-	('dsgsdhs', 5, 5, 'sdfasfd', 'dsfasdasdg', true),
-	('sfasda', 1, 1, 'sdfasfd', 'dsfasdasdg', true);
+	('Glassmalerier', 3, 1, 'Oslo', 'Smøla', true),
+	('3 nye biler til kommunearbeidere', 5, 5, 'Kristiansund', 'Smøla', true),
+	('Treverk', 1, 1, 'Oslo', 'Bergen', true);
+
+INSERT INTO oppdrag (beskrivelse, kunde_id, sjafor_id, fra, til, dato) VALUES
+	('Kjøre materialer for kirke ritualer', 3, 1, 'Fredrikstad', 'Smøla', '2020-04-05');
