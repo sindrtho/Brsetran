@@ -35,8 +35,23 @@ export function create_app(pool) {
 		});
 	});
 
+	app.get("/mission/nodate", (req, res) => {
+		console.log("Kommer inn i API");
+		oppdragdao.getNoDates((status, data) => {
+			res.status(status);
+			res.json(data);
+		});
+	});
+
+	app.get("/mission/bydate/:date", (req, res) => {
+		oppdragdao.getByDate(req.params.date, (status, data) => {
+			res.status(status);
+			res.json(data);
+		});
+	});
+
 	// Hent ett oppdrag
-	app.get("/mission/:id", (req, res) => {
+	app.get("/mission/byid/:id", (req, res) => {
 		oppdragdao.getOne(req.params.id, (status, data) => {
 			res.status(status);
 			res.json(data);

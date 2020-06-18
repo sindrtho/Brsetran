@@ -3,8 +3,33 @@ import controllable from 'react-controllables';
 import shouldPureComponentUpdate from 'react-pure-render/function';
 import PropTypes from 'prop-types';
 import { Component } from 'react-simplified';
+import { NavLink } from 'react-router-dom';
 import ReactDOM from 'react-dom';
+
+import { OppdragListe } from '../OppdragListe/OppdragListe.js';
+
 import { oppdragService } from '../../Services/oppdragService.js'
+import { Card } from '../../widgets.js';
+
+// Returns a string of the Date from date object.
+Date.prototype.getFullDate = function() {
+	return this.getFullYear()+':'+(this.getMonth()+1)+':'+this.getDate();
+}
+
+// Returns a list of all dates in a week from single Date object.
+Date.prototype.getFullWeek = function() {
+	let today = (this.getDay()+7)%8;
+	let date = new Date(this.getTime());
+	date.setDate(date.getDate()-today);
+
+	let week = [];
+	for(var i = 0; i < 7; i++) {
+		week.push(new Date(date.getTime()));
+		date.setDate(date.getDate()+1);
+	}
+
+	return week;
+}
 
 Date.prototype.getWeek = function(){
     // We have to compare against the first monday of the year not the 01/01
@@ -36,30 +61,27 @@ Date.prototype.getWeek = function(){
     return (days_from_first_monday>=0 && days_from_first_monday<364) ? Math.ceil((days_from_first_monday+1)/7) : 52;
 }
 
-export default class Test extends Component {
-	oppdrag = {};
-	date = new Date();
+export class Ukeliste extends Component {
+	today = new Date();
+	weekdates = [];
 
-	render() {
-		return(
-			<div>
-				{ this.oppdrag &&
-				<div>
-					<h3>{this.oppdrag.beskrivelse}</h3>
-					<h3>Kunde: {this.oppdrag.kunde_navn}</h3>
-					<h3>Kjøres fra: {this.oppdrag.fra}</h3>	
-					<h3>Kjøres til: {this.oppdrag.til}</h3>
-					{ this.oppdrag.dato && <h3>Dato: {this.oppdrag.dato.substring(0, 10)}</h3>}
-				</div> ||
-				<div><h3>Oppdrag eksisterer ikke eller du har ikke tilgang</h3></div>
+	render () {
+		return (
+			<div className="ukeliste">
+				{
+					this.weekdates.map((d, i) => {
+						return (
+							<div key={i} className='ukedag'>
+								<OppdragListe date={d}/>
+							</div>
+						)
+					})
 				}
 			</div>
-		);
+		)
 	}
 
-	mounted() {
-		oppdragService.getOne(this.props.match.params.id)
-			.then(e => this.oppdrag = e[0])
-			.catch(err => console.log(err.toString()))
+	mounted () {
+		this.weekdates = this.today.getFullWeek();
 	}
 }

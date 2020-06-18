@@ -17,7 +17,15 @@ export class Oppdrag {
 
 class OppdragService {
 	getOne(id) {
-		return axios.get('/mission/' + id);
+		return axios.get('/mission/byid/' + id);
+	}
+
+	getByDate(date) {
+		return axios.get('/mission/bydate/' + date);
+	}
+
+	getNoDate() {
+		return axios.get('/mission/nodate');
 	}
 }
 

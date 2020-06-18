@@ -5,11 +5,20 @@ const FRAKT = 1;
 
 export default class OppdragDao extends Dao {
 	getOne(id, callback) {
-		super.query("SELECT * FROM oppdrag NATURAL JOIN kunde NATURAL JOIN sjafor WHERE oppdrag_id=?", [id], callback);
+		super.query("SELECT * FROM oppdrag NATURAL JOIN kunde LEFT JOIN sjafor USING (sjafor_id) WHERE oppdrag_id=?", [id], callback);
 	}
 
 	getAll(callback) {
-		super.query("SELECT * FROM oppdrag NATURAL JOIN kunde NATURAL JOIN sjafor", [], callback);
+		super.query("SELECT * FROM oppdrag NATURAL JOIN kunde LEFT JOIN sjafor USING (sjafor_id)", [], callback);
+	}
+
+	getByDate(date, callback) {
+		console.log(date);
+		super.query("SELECT * FROM oppdrag NATURAL JOIN kunde LEFT JOIN sjafor USING (sjafor_id) WHERE dato=?", [date], callback);
+	}
+
+	getNoDates(callback) {
+		super.query("SELECT * FROM oppdrag NATURAL JOIN kunde LEFT JOIN sjafor USING (sjafor_id) WHERE dato IS NULL", [], callback);
 	}
 
 	addAssignment(json, callback) {
