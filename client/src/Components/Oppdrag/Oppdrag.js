@@ -8,9 +8,13 @@ import ReactDOM from 'react-dom';
 import { oppdragService } from '../../Services/oppdragService.js'
 import { Card } from '../../widgets.js';
 
+Date.prototype.getFullDate = function() {
+	return this.getFullYear()+'-'+(this.getMonth()+1)+'-'+this.getDate();
+}
+
 export default class Oppdrag extends Component {
 	oppdrag = {};
-	date = new Date();
+	date = {};
 
 	render() {
 		return(
@@ -18,11 +22,8 @@ export default class Oppdrag extends Component {
 				{ this.oppdrag &&
 				<Card title={this.oppdrag.beskrivelse}>
 				<div>
-					<h3>Kunde: {this.oppdrag.kunde_navn}</h3>
-					<h3>Kjøres fra: {this.oppdrag.fra}</h3>
-					<h3>Kjøres til: {this.oppdrag.til}</h3>
-					{ this.oppdrag.dato && <h3>Dato: {this.oppdrag.dato.substring(0, 10)}</h3>}
-					{ this.oppdrag.utfort==1 && <h3>Fullført</h3>}
+					{ this.oppdrag.dato && <h3>Dato: {this.oppdrag.dato.substring(0,10)}</h3> }
+					{ this.oppdrag.utfort==1 && <h3>Fullført</h3> }
 				</div>
 				</Card> ||
 				<div><h3>Oppdrag eksisterer ikke eller du har ikke tilgang</h3></div>

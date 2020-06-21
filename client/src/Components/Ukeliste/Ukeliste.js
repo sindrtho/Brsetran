@@ -13,7 +13,7 @@ import { Card } from '../../widgets.js';
 
 // Returns a string of the Date from date object.
 Date.prototype.getFullDate = function() {
-	return this.getFullYear()+':'+(this.getMonth()+1)+':'+this.getDate();
+	return this.getFullYear()+'-'+(this.getMonth()+1)+'-'+this.getDate();
 }
 
 // Returns a list of all dates in a week from single Date object.
@@ -68,6 +68,8 @@ export class Ukeliste extends Component {
 	render () {
 		return (
 			<div className="ukeliste">
+			<button>{"<="}</button>
+			<p id="ukenummer">Uke {new Date(this.weekdates[0]).getWeek()}</p>
 				{
 					this.weekdates.map((d, i) => {
 						return (

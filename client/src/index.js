@@ -11,7 +11,6 @@ if(root) {
 		<BrowserRouter>
 			<div>
 				<Route path='/oppdrag/:id' component={Oppdrag}/>
-				<Route path='/utendato' component={OppdragUtenDatoListe}/>
 				<Route path='/ukeliste' component={Ukeliste}/>
 			</div>
 		</BrowserRouter>,

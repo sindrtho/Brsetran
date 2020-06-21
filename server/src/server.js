@@ -61,10 +61,9 @@ export function create_app(pool) {
 	// Nytt oppdrag
 	app.post('/mission', (req, res) => {
 		let newAssignment = {
+			'tittel': req.body.tittel,
 			'beskrivelse': req.body.beskrivelse,
-			'kunde_id': req.body.kunde_id,
-			'fra': req.body.fra,
-			'til': req.body.til
+			'rute': req.body.rute
 		};
 		oppdragdao.addAssignment(newAssignment, (status, data) => {
 			res.status(status);

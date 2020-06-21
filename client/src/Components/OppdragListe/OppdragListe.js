@@ -11,9 +11,10 @@ import { Card } from '../../widgets.js';
 
 // Returns a string of the Date from date object.
 Date.prototype.getFullDate = function() {
-	return this.getFullYear()+':'+(this.getMonth()+1)+':'+this.getDate();
+	return this.getFullYear()+'-'+(this.getMonth()+1)+'-'+this.getDate();
 }
 
+// List of all assignments for the day.
 export class OppdragListe extends Component {
 	date = {};
 	dateString = "";
@@ -22,10 +23,11 @@ export class OppdragListe extends Component {
 	render () {
 		return (
 			<div className="dagsliste">
+			<p>Dato: {this.dateString}</p>
 				{
 					this.oppdrag.map(e => {
 						return (
-							<Sammendrag key={e.oppdrag_id} missionid={e.oppdrag_id} dato={e.dato} beskrivelse={e.beskrivelse} utfort={e.utfort} fra={e.fra} til={e.til} kunde={e.kunde_navn} sjafor={e.sjafor_id ? e.sjafor_fornavn + " " + e.sjafor_etternavn : null}/>
+							<Sammendrag key={e.oppdrag_id} tittel={e.tittel} missionid={e.oppdrag_id} dato={e.dato} utfort={e.utfort} ruteid={e.rute_id} rutenavn={e.rute_navn}/>
 						)
 					})
 				}
@@ -45,46 +47,20 @@ export class OppdragListe extends Component {
 	}
 }
 
+// Short summary of task and customer.
 export class Sammendrag extends Component {
 	render () {
 		return (
 		<NavLink to={'/oppdrag/'+this.props.missionid}>
 			<div className="sammendrag">
-				<Card title={this.props.beskrivelse} c={this.props.utfort==1 ? "white" : "lightBlue"}>
+				<Card title={this.props.tittel} c={this.props.utfort==1 ? "white" : "lightBlue"}>
 					<div className="content">
-						<p>Fra: {this.props.fra}</p>
-						<p>Til: {this.props.til}</p>
-						<p>Kunde: {this.props.kunde}</p>
-						{this.props.dato && <p>Dato: {this.props.dato.substring(0, 10)}</p>}
-						{this.props.sjafor && <p>Sjåfør: {this.props.sjafor}</p>}
+						<h4>Rute {this.props.ruteid}</h4>
+						<h4>{this.props.rutenavn}</h4>
 					</div>
 				</Card>
 			</div>
 		</NavLink>
 		)
-	}
-}
-
-export class OppdragUtenDatoListe extends Component {
-	oppdrag = [];
-
-	render () {
-		return (
-			<div>
-			{
-				this.oppdrag.map(e => {
-					return (
-						<Sammendrag key={e.oppdrag_id} missionid={e.oppdrag_id} beskrivelse={e.beskrivelse} utfort={e.utfort} fra={e.fra} til={e.til} kunde={e.kunde_navn} sjafor={e.sjafor_id ? e.sjafor_fornavn + " " + e.sjafor_etternavn : null}/>
-					)
-				})
-			}
-			</div>
-		)
-	}
-
-	mounted () {
-		oppdragService.getNoDate()
-			.then(e => this.oppdrag = e)
-			.catch(err => console.log(err))
 	}
 }
