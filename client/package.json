@@ -2,7 +2,7 @@
   "name": "service",
   "version": "1.0.0",
   "scripts": {
-    "start": "webpack --mode development --watch",
+    "start": "TZ=UTC webpack --mode development --watch",
     "build-prod": "webpack --mode production"
   },
   "dependencies": {

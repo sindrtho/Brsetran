@@ -14,18 +14,36 @@ Date.prototype.getFullDate = function() {
 	return this.getFullYear()+'-'+(this.getMonth()+1)+'-'+this.getDate();
 }
 
+const colorTable = {
+	1: "red",
+	2: "green",
+	3: "yellow",
+	4: "pink",
+	5: "lightBlue",
+	6: "blue",
+	7: "darkGreen",
+	8: "salmon",
+	9: "orange",
+	10: "teal"
+}
+
 // List of all assignments for the day.
 export class OppdragListe extends Component {
-	date = {};
-	dateString = "";
-	oppdrag = [];
+	constructor(props) {
+		super(props);
+		this.state = {
+			date: {},
+			dateString: "2",
+			oppdrag: []
+		}
+	}
 
 	render () {
 		return (
 			<div className="dagsliste">
-			<p>Dato: {this.dateString}</p>
+			<p>Dato: {this.state.dateString}</p>
 				{
-					this.oppdrag.map(e => {
+					this.state.oppdrag.map(e => {
 						return (
 							<Sammendrag key={e.oppdrag_id} tittel={e.tittel} missionid={e.oppdrag_id} dato={e.dato} utfort={e.utfort} ruteid={e.rute_id} rutenavn={e.rute_navn}/>
 						)
@@ -36,14 +54,25 @@ export class OppdragListe extends Component {
 	}
 
 	mounted() {
+		var newDate = new Date();
 		if(this.props.date)
-			this.date = this.props.date;
-		else
-			this.date = new Date();
-		this.dateString = this.date.getFullDate()
-		oppdragService.getByDate(this.dateString)
-			.then(e => this.oppdrag = e)
+			newDate = this.props.date;
+		var dateString = newDate.getFullDate();
+
+		oppdragService.getByDate(dateString)
+			.then(e => this.setState({oppdrag: e, date: newDate, dateString: dateString}))
 			.catch(err => console.log(err))
+	}
+
+	componentDidUpdate(prevProps, prevState) {
+		if(prevProps.date != this.props.date) {
+			var newDate = this.props.date;
+			var dateString = newDate.getFullDate();
+
+			oppdragService.getByDate(dateString)
+				.then(e => this.setState({oppdrag: e, date: newDate, dateString: dateString}))
+				.catch(err => console.log(err))
+		}
 	}
 }
 
@@ -53,10 +82,9 @@ export class Sammendrag extends Component {
 		return (
 		<NavLink to={'/oppdrag/'+this.props.missionid}>
 			<div className="sammendrag">
-				<Card title={this.props.tittel} c={this.props.utfort==1 ? "white" : "lightBlue"}>
+				<Card title={this.props.tittel} c={this.props.utfort==1 ? "white" : colorTable[this.props.ruteid]}>
 					<div className="content">
-						<h4>Rute {this.props.ruteid}</h4>
-						<h4>{this.props.rutenavn}</h4>
+						<p className="summaryRoute">Rute {this.props.ruteid}: {this.props.rutenavn}</p>
 					</div>
 				</Card>
 			</div>

@@ -4,8 +4,49 @@
 
 .sammendrag {
 	color: black;
+	margin: 2px;
+	border: solid black 2px;
+	border-radius: 20px;
+
+}
+
+.ukelisteNavbar {
+	display: flex;
+	justify-content: space-around;
+}
+
+#ukenummer {
+	font-size: 30px
+}
+
+.container {
+	display: flex;
+	justify-content: space-between;
 }
 
 .ukedag {
-	float: left;
+	border: solid black 1px;
+}
+
+.headline {
+	font-size: 15px;
+}
+
+.summaryRoute {
+	font-size: 12px;
+}
+
+.assignmentheadline {
+	font-size: 30px;
+}
+
+.navbar {
+	background-color: darkred;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+#nyttoppdragknapp {
+	background-color: lightblue;
+	font-weight: bold;
 }

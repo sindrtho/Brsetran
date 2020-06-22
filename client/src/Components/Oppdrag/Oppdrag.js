@@ -20,12 +20,11 @@ export default class Oppdrag extends Component {
 		return(
 			<div className="oppdrag">
 				{ this.oppdrag &&
-				<Card title={this.oppdrag.beskrivelse}>
 				<div>
+					<h3 className="assignmentheadline">{this.oppdrag.beskrivelse}</h3>
 					{ this.oppdrag.dato && <h3>Dato: {this.oppdrag.dato.substring(0,10)}</h3> }
 					{ this.oppdrag.utfort==1 && <h3>Fullført</h3> }
-				</div>
-				</Card> ||
+				</div> ||
 				<div><h3>Oppdrag eksisterer ikke eller du har ikke tilgang</h3></div>
 				}
 			</div>

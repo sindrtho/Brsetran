@@ -31,6 +31,25 @@ Date.prototype.getFullWeek = function() {
 	return week;
 }
 
+const fullWeek = function(date) {
+	var day_miliseconds = 86400000;
+	var weekNumber = date.getWeek();
+
+	var onejan = new Date(date.getFullYear(), 0,1,0,0);
+
+	var onejan_day = onejan.getDay() == 0 ? 7 : onejan.getDay();
+	var days_for_next_monday = 8-onejan_day;
+	var onejan_next_monday_time = onejan.getTime() + (days_for_next_monday * day_miliseconds);
+	var first_monday_year_time = onejan_day > 1 ? onejan_next_monday_time : onejan.getTime();
+
+	var monday = new Date(first_monday_year_time);
+	//console.log(monday);
+
+	monday.setDate(monday.getDate()+7*(weekNumber-1));	// Set the date to a date in the correct week
+	//console.log(monday)
+	return date.getFullWeek();
+}
+
 Date.prototype.getWeek = function(){
     // We have to compare against the first monday of the year not the 01/01
     // 60*60*24*1000 = 86400000
@@ -58,32 +77,58 @@ Date.prototype.getWeek = function(){
     // so friday 01/01 is part of week number 52 from past year)
     // "days_from_first_monday<=364" because (364+1)/7 == 52, if we are on day 365, then (365+1)/7 >= 52 (Math.ceil(366/7)=53) and thats wrong
 
-    return (days_from_first_monday>=0 && days_from_first_monday<364) ? Math.ceil((days_from_first_monday+1)/7) : 52;
+    return (days_from_first_monday>=0 && days_from_first_monday<364) ? Math.ceil((days_from_first_monday+1)/7) : 53;
 }
 
 export class Ukeliste extends Component {
-	today = new Date();
-	weekdates = [];
+	constructor(props) {
+		super(props);
+		this.state = {
+			date: new Date(),
+			weekdates: [],
+			day_miliseconds: 86400000
+		}
+	}
 
 	render () {
 		return (
 			<div className="ukeliste">
-			<button>{"<="}</button>
-			<p id="ukenummer">Uke {new Date(this.weekdates[0]).getWeek()}</p>
-				{
-					this.weekdates.map((d, i) => {
-						return (
-							<div key={i} className='ukedag'>
-								<OppdragListe date={d}/>
-							</div>
-						)
-					})
-				}
+			<div className="ukelisteNavbar">
+				<button onClick={() => { this.decrement() }}>{"<="}</button>
+				<p id="ukenummer">Uke {this.state.date.getWeek()}</p>
+				<button onClick={() => { this.increment() }}>{"=>"}</button>
+			</div>
+				<div className="container">
+					{
+						this.state.weekdates.map((d, i) => {
+							return (
+								<div key={i} className='ukedag'>
+									<OppdragListe date={d}/>
+								</div>
+							)
+						})
+					}
+				</div>
 			</div>
 		)
 	}
 
-	mounted () {
-		this.weekdates = this.today.getFullWeek();
+	decrement() {
+		var newDate = new Date(this.state.date.getTime()-7*this.state.day_miliseconds);
+		var tmpDays = fullWeek(newDate);
+		this.setState({weekdates: tmpDays, date: newDate});
 	}
+
+	increment() {
+		var newDate = new Date(this.state.date.getTime()+7*this.state.day_miliseconds);
+		var tmpDays = fullWeek(newDate);
+		this.setState({weekdates: tmpDays, date: newDate});
+	}
+
+	mounted () {
+		var tmpDays = fullWeek(this.state.date);
+		this.setState({weekdates: tmpDays});
+	}
+
+
 }
