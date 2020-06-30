@@ -93,12 +93,12 @@ export class Ukeliste extends Component {
 	render () {
 		return (
 			<div className="ukeliste">
-			<div className="ukelisteNavbar">
-				<button onClick={() => { this.decrement() }}>{"<="}</button>
-				<p id="ukenummer">Uke {this.state.date.getWeek()}</p>
-				<button onClick={() => { this.increment() }}>{"=>"}</button>
-			</div>
-				<div className="container">
+				<div className="ukelisteNavbar">
+					<button type="button" className="btn btn-primary" onClick={() => { this.decrement() }}>{"<="}</button>
+					<p id="ukenummer">Uke {this.state.date.getWeek()}</p>
+					<button type="button" className="btn btn-primary" onClick={() => { this.increment() }}>{"=>"}</button>
+				</div>
+				<div className="d-flex justify-content-between wrapper">
 					{
 						this.state.weekdates.map((d, i) => {
 							return (
@@ -132,3 +132,5 @@ export class Ukeliste extends Component {
 
 
 }
+
+// filter.map(e => this.oppdrag.filter(f => f.rute_id == e).map(g => { return (<div>{g.content bla bla bla}</div>) }))

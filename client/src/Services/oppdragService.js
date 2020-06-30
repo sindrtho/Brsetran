@@ -22,6 +22,10 @@ class OppdragService {
 	getByDate(date) {
 		return axios.get('/mission/bydate/' + date);
 	}
+
+	getRoutes() {
+		return axios.get('/routes');
+	}
 }
 
 export let oppdragService = new OppdragService();

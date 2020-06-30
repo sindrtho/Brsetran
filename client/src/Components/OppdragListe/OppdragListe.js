@@ -14,6 +14,10 @@ Date.prototype.getFullDate = function() {
 	return this.getFullYear()+'-'+(this.getMonth()+1)+'-'+this.getDate();
 }
 
+Date.prototype.getDateForPrint = function() {
+	return this.getDate()+'.'+(this.getMonth()+1)+'.'+this.getFullYear();
+}
+
 const colorTable = {
 	1: "red",
 	2: "green",
@@ -26,6 +30,16 @@ const colorTable = {
 	9: "orange",
 	10: "teal"
 }
+
+const Weekdays = [
+	"Søndag",
+	"Mandag",
+	"Tirsdag",
+	"Onsdag",
+	"Torsdag",
+	"Fredag",
+	"Lørdag"
+];
 
 // List of all assignments for the day.
 export class OppdragListe extends Component {
@@ -41,7 +55,8 @@ export class OppdragListe extends Component {
 	render () {
 		return (
 			<div className="dagsliste">
-			<p>Dato: {this.state.dateString}</p>
+			<p>{Weekdays[new Date(this.state.date).getDay()]} {new Date(this.state.date).getDateForPrint()}</p>
+				<div className="dagslistecontent">
 				{
 					this.state.oppdrag.map(e => {
 						return (
@@ -49,6 +64,7 @@ export class OppdragListe extends Component {
 						)
 					})
 				}
+				</div>
 			</div>
 		)
 	}

@@ -2,12 +2,23 @@
 	font-size: 25px;
 }
 
+html, body {
+	height: 100%;
+	margin: 0px;
+}
+
+#root {
+	height: 100%;
+}
+
+.wrapper {
+	height: 100%;
+}
+
 .sammendrag {
 	color: black;
 	margin: 2px;
 	border: solid black 2px;
-	border-radius: 20px;
-
 }
 
 .ukelisteNavbar {
@@ -19,6 +30,10 @@
 	font-size: 30px
 }
 
+.ukeliste {
+	height: 100%;
+}
+
 .container {
 	display: flex;
 	justify-content: space-between;
@@ -26,6 +41,17 @@
 
 .ukedag {
 	border: solid black 1px;
+	height: 100%;
+	width: 100%;
+}
+
+.dagsliste {
+	height: 100%;
+}
+
+.dagslistecontent {
+	overflow-y: scroll;
+	height: 95%;
 }
 
 .headline {
@@ -38,12 +64,6 @@
 
 .assignmentheadline {
 	font-size: 30px;
-}
-
-.navbar {
-	background-color: darkred;
-	border-bottom-left-radius: 5px;
-	border-bottom-right-radius: 5px;
 }
 
 #nyttoppdragknapp {

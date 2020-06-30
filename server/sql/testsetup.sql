@@ -11,7 +11,7 @@ CREATE TABLE rute (
 CREATE TABLE oppdrag(
 	oppdrag_id INT PRIMARY KEY AUTO_INCREMENT,
 	tittel VARCHAR(64) NOT NULL,
-	beskrivelse VARCHAR(128) NOT NULL,
+	beskrivelse VARCHAR(512) NOT NULL,
 	pris REAL,
 	dato_mottatt DATE,
 	rute_id INT NOT NULL,

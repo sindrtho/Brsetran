@@ -14,21 +14,35 @@ export default class OppdragDao extends Dao {
 		super.query("SELECT * FROM oppdrag NATURAL JOIN rute WHERE dato=?", [date], callback);
 	}
 
+	getByMonth(month, callback) {
+		console.log(date);
+		super.query("SELECT * FROM oppdrag NATURAL JOIN rute WHERE month(dato)=?", [month], callback);
+	}
+
 	addAssignment(json, callback) {
-		// TODO
-		return -1;
+		var vals = [
+			json.tittel,
+			json.beskrivelse,
+			json.rute_id,
+			json.dato
+		];
+		super.query("INSERT INTO oppdrag (tittel, beskrivelse, rute_id, dato) VALUES (?, ?, ?, ?)", vals, callback);
 	}
 
 	doneAssignment(id, callback) {
 		super.query("UPDATE oppdrag SET utfort=1 WHERE oppdrag_id=?", [id], callback);
 	}
 
-	addDate(id, date, callback) {
-		super.query("UPDATE frakt SET dato=? WEHRE id=?", [date, id], callback);
+	ChangeDate(id, date, callback) {
+		super.query("UPDATE oppdrag SET date=? WHERE oppdrag_id=?", [date, id], callback);
 	}
 
-	addPrice() {
-		//TODO
+	addPrice(id, price, callback) {
+		super.query("UPDATE oppdrag SET price=? WHERE oppdrag_id=?", [price, id], callback)
 		return -1;
+	}
+
+	getRoutes(callback) {
+		super.query("SELECT * FROM rute", [], callback);
 	}
 }

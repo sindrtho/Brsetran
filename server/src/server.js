@@ -14,6 +14,7 @@ export function create_app(pool) {
 	const oppdragdao = new OppdragDao(pool);
 
 	app.use(express.static(publicpath));
+	app.use(bodyParser.urlencoded({ extended: true }));
 	
 	// Finn administrator
 	app.get('/admin/:id', (req, res) => {
@@ -35,14 +36,6 @@ export function create_app(pool) {
 		});
 	});
 
-	app.get("/mission/nodate", (req, res) => {
-		console.log("Kommer inn i API");
-		oppdragdao.getNoDates((status, data) => {
-			res.status(status);
-			res.json(data);
-		});
-	});
-
 	app.get("/mission/bydate/:date", (req, res) => {
 		oppdragdao.getByDate(req.params.date, (status, data) => {
 			res.status(status);
@@ -58,25 +51,43 @@ export function create_app(pool) {
 		});
 	});
 
-	// Nytt oppdrag
-	app.post('/mission', (req, res) => {
-		let newAssignment = {
-			'tittel': req.body.tittel,
-			'beskrivelse': req.body.beskrivelse,
-			'rute': req.body.rute
-		};
-		oppdragdao.addAssignment(newAssignment, (status, data) => {
+	app.get("/routes", (req, res) => {
+		oppdragdao.getRoutes((status, data) => {
 			res.status(status);
 			res.json(data);
 		});
 	});
 
+	// Nytt oppdrag
+	app.post('/mission', (req, res) => {
+		let newAssignment = {
+			'tittel': req.body.tittel,
+			'beskrivelse': req.body.beskrivelse,
+			'rute_id': req.body.rute.split(" ")[0],
+			'dato': req.body.dato
+		};
+		oppdragdao.addAssignment(newAssignment, (status, data) => {
+			res.status(status);
+			res.redirect('/ukeliste');
+		});
+	});
+
 	// Oppdrag er ferdig
-	app.put('/mission/:id/ferdig', (req, res) => {
+	app.put('/mission/done/:id', (req, res) => {
 		oppdragdao.doneAssignment(req.params.id, (status, data) => {
 			res.status(status);
 			res.json(data);
 		});
+	});
+
+	app.put("/mission/date/:id", (req, res) => {
+		// TODO
+		return -1;
+	});
+
+	app.put("/mission/price/:id", (req, res) => {
+		// TODO
+		return -1;
 	});
 
 	app.get('*', (req, res) => {
