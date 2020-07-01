@@ -24,11 +24,11 @@ const colorTable = {
 	3: "yellow",
 	4: "pink",
 	5: "lightBlue",
-	6: "blue",
+	6: "teal",
 	7: "darkGreen",
 	8: "salmon",
 	9: "orange",
-	10: "teal"
+	10: "blue"
 }
 
 const Weekdays = [
@@ -48,7 +48,8 @@ export class OppdragListe extends Component {
 		this.state = {
 			date: {},
 			dateString: "2",
-			oppdrag: []
+			oppdrag: [],
+			filters: []
 		}
 	}
 
@@ -74,20 +75,73 @@ export class OppdragListe extends Component {
 		if(this.props.date)
 			newDate = this.props.date;
 		var dateString = newDate.getFullDate();
+		var f = this.props.filters;
 
 		oppdragService.getByDate(dateString)
-			.then(e => this.setState({oppdrag: e, date: newDate, dateString: dateString}))
+			.then(e => {
+				var tmp = e;
+				if(f[0] == false)
+					tmp = tmp.filter(a => a.utfort == 0);
+				this.setState({oppdrag: tmp, date: newDate, dateString: dateString, filters: f})
+			})
 			.catch(err => console.log(err))
 	}
 
 	componentDidUpdate(prevProps, prevState) {
+
+		// Updating assingments if the date changes
 		if(prevProps.date != this.props.date) {
 			var newDate = this.props.date;
 			var dateString = newDate.getFullDate();
+			var f = this.state.filters;
+			
+			// Date updates and filter is empty except from done and not done			
+			if(f.length == 1) {
+				oppdragService.getByDate(dateString)
+					.then(e => {
+						var tmp = e;
+						if(f[0] == false)
+							tmp = tmp.filter(a => a.utfort==0);
+						this.setState({oppdrag: tmp, date: newDate, dateString: dateString})
+					})
+					.catch(err => console.log(err))
+			} 
 
-			oppdragService.getByDate(dateString)
-				.then(e => this.setState({oppdrag: e, date: newDate, dateString: dateString}))
-				.catch(err => console.log(err))
+			// Filter list is NOT empty
+			else {
+				oppdragService.getByDate(dateString)
+					.then(e => {
+						var tmp = e.filter(a => f.includes(a.rute_id));
+						if(f[0] == false)
+							tmp = tmp.filter(a => a.utfort==0);
+						this.setState({oppdrag: tmp, date: newDate, dateString: dateString});
+					})
+					.catch(err => console.log(err))
+			} 
+		}
+
+		// Updating filters for assignment visibility
+		if(prevProps.filters != this.props.filters) {
+			var f = this.props.filters;
+			if(f.length > 1) {
+				oppdragService.getByDate(this.state.dateString)
+					.then(e => {
+						var tmp = e.filter(a => f.includes(a.rute_id));
+						if(f[0] == false)
+							tmp = tmp.filter(a => a.utfort==0);
+						this.setState({oppdrag: tmp, filters: f})
+					})
+					.catch(err => console.log(err))
+			} else {
+				oppdragService.getByDate(this.state.dateString)
+					.then(e => {
+						var tmp = e;
+						if(f[0] == false)
+							tmp = tmp.filter(a => a.utfort==0);
+						this.setState({oppdrag: tmp, filters: f})
+					})
+					.catch(err => console.log(err))
+			}
 		}
 	}
 }

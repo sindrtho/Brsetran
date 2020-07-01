@@ -11,7 +11,7 @@ import { OppdragListe } from '../OppdragListe/OppdragListe.js';
 import { oppdragService } from '../../Services/oppdragService.js'
 import { Card } from '../../widgets.js';
 
-//ANeeds more functionality!
+//Needs more functionality!
 
 /*export default class NavBar extends Component {
 	render () {
@@ -36,7 +36,7 @@ export default class NavBar extends Component {
 			<nav className="navbar navbar-inverse">
 			  <div className="container-fluid">
 			    <div className="navbar-header">
-			      <a className="navbar-brand" href="/">Brødrene Sætran Arbeidskallender</a>
+			      <a className="navbar-brand" href="/ukeliste">Brødrene Sætran Arbeidskallender</a>
 			    </div>
 			    <ul className="nav navbar-nav">
 			      <li><a href="/nyttoppdrag">Nytt Oppdrag</a></li>

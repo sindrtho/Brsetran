@@ -70,3 +70,7 @@ html, body {
 	background-color: lightblue;
 	font-weight: bold;
 }
+
+#filterbar {
+	width: 100%;
+}

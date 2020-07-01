@@ -14,8 +14,9 @@ export function create_app(pool) {
 	const oppdragdao = new OppdragDao(pool);
 
 	app.use(express.static(publicpath));
+	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({ extended: true }));
-	
+
 	// Finn administrator
 	app.get('/admin/:id', (req, res) => {
 		admindao.getOne(req.params.id, (status, data) => {
@@ -80,14 +81,18 @@ export function create_app(pool) {
 		});
 	});
 
-	app.put("/mission/date/:id", (req, res) => {
-		// TODO
-		return -1;
+	app.put("/mission/changedate/:id", (req, res) => {
+		oppdragdao.changeDate(req.params.id, req.body.date, (status, data) => {
+			res.status(status);
+			res.json(data);
+		})
 	});
 
-	app.put("/mission/price/:id", (req, res) => {
-		// TODO
-		return -1;
+	app.put("/mission/changeprice/:id", (req, res) => {
+		oppdragdao.changePrice(req.params.id, req.body.price, (status, data) => {
+			res.status(status);
+			res.json(data);
+		})
 	});
 
 	app.get('*', (req, res) => {

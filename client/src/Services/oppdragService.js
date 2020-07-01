@@ -26,6 +26,22 @@ class OppdragService {
 	getRoutes() {
 		return axios.get('/routes');
 	}
+
+	complete(id) {
+		return axios.put('/mission/done/' + id);
+	}
+
+	changeDate(id, newDate) {
+		var params = {'date': newDate};
+		console.log(params)
+
+		return axios.put('/mission/changedate/' + id, params);
+	}
+
+	changePrice(id, newPrice) {
+		var params = {price: newPrice};
+		return axios.put('/mission/changeprice/' + id, params);
+	}
 }
 
 export let oppdragService = new OppdragService();

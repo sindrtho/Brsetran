@@ -86,7 +86,9 @@ export class Ukeliste extends Component {
 		this.state = {
 			date: new Date(),
 			weekdates: [],
-			day_miliseconds: 86400000
+			day_miliseconds: 86400000,
+			routes: [],
+			filters: []
 		}
 	}
 
@@ -98,12 +100,28 @@ export class Ukeliste extends Component {
 					<p id="ukenummer">Uke {this.state.date.getWeek()}</p>
 					<button type="button" className="btn btn-primary" onClick={() => { this.increment() }}>{"=>"}</button>
 				</div>
+				<div className="ukelisteNavbar">
+					<div>
+						<label htmlFor="fullfort">Fullført</label>
+						<input type="checkbox" name="fullfort" id="0fullfort" value={0} onChange={() => { this.check_change() }}/>
+					</div>
+					{
+						this.state.routes.map((e, i) => {
+							return (
+								<div key={i}>
+								<label htmlFor={e.rute_navn}>{e.rute_id} {e.rute_navn}</label>
+								<input type="checkbox" name={e.rute_navn} id={e.rute_id+e.rute_navn} value={e.rute_id} onChange={() => { this.check_change() }}/>
+								</div>
+							)
+						})
+					}
+				</div>
 				<div className="d-flex justify-content-between wrapper">
 					{
 						this.state.weekdates.map((d, i) => {
 							return (
 								<div key={i} className='ukedag'>
-									<OppdragListe date={d}/>
+									<OppdragListe date={d} filters={this.state.filters}/>
 								</div>
 							)
 						})
@@ -111,6 +129,19 @@ export class Ukeliste extends Component {
 				</div>
 			</div>
 		)
+	}
+
+	check_change() {
+		var routes = this.state.routes;
+		var fullfort = document.getElementById("0fullfort");
+		var filters = [fullfort.checked];
+		routes.map(e => {
+			var tmp = document.getElementById(e.rute_id+e.rute_navn);
+			if(tmp.checked) {
+				filters.push(e.rute_id);
+			}
+		});
+		this.setState({filters: filters});
 	}
 
 	decrement() {
@@ -125,9 +156,38 @@ export class Ukeliste extends Component {
 		this.setState({weekdates: tmpDays, date: newDate});
 	}
 
+	// These are NOT working as they should. Will not be implemented until fixed
+	lastYear() {
+		var newDate = new Date(this.state.date.getTime()-365*this.state.day_miliseconds);
+		var tmpDays = fullWeek(newDate);
+		this.setState({weekdates: tmpDays, date: newDate});
+	}
+
+	nextYear() {
+		var newDate = new Date(this.state.date.getTime()+365*this.state.day_miliseconds);
+		var tmpDays = fullWeek(newDate);
+		this.setState({weekdates: tmpDays, date: newDate});
+	}
+
+	lastMonth() {
+		var newDate = new Date(this.state.date.getTime()-30*this.state.day_miliseconds);
+		var tmpDays = fullWeek(newDate);
+		this.setState({weekdates: tmpDays, date: newDate});
+	}
+
+	nextMonth() {
+		var newDate = new Date(this.state.date.getTime()+30*this.state.day_miliseconds);
+		var tmpDays = fullWeek(newDate);
+		this.setState({weekdates: tmpDays, date: newDate});
+	}
+	// End of shitty, not working code
+
 	mounted () {
 		var tmpDays = fullWeek(this.state.date);
-		this.setState({weekdates: tmpDays});
+		var filters = [false];
+		var filter = oppdragService.getRoutes()
+			.then(e => this.setState({weekdates: tmpDays, routes: e, filters: filters}))
+			.catch(err => console.log(err))
 	}
 
 

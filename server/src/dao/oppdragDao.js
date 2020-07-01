@@ -33,13 +33,12 @@ export default class OppdragDao extends Dao {
 		super.query("UPDATE oppdrag SET utfort=1 WHERE oppdrag_id=?", [id], callback);
 	}
 
-	ChangeDate(id, date, callback) {
-		super.query("UPDATE oppdrag SET date=? WHERE oppdrag_id=?", [date, id], callback);
+	changeDate(id, date, callback) {
+		super.query("UPDATE oppdrag SET dato=? WHERE oppdrag_id=?", [date, id], callback);
 	}
 
-	addPrice(id, price, callback) {
-		super.query("UPDATE oppdrag SET price=? WHERE oppdrag_id=?", [price, id], callback)
-		return -1;
+	changePrice(id, price, callback) {
+		super.query("UPDATE oppdrag SET pris=? WHERE oppdrag_id=?", [price, id], callback)
 	}
 
 	getRoutes(callback) {

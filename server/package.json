@@ -2,7 +2,7 @@
   "name": "brsetrankalender",
   "version": "1.0.0",
   "scripts": {
-    "start": "nodemon --exec babel-node -- src/index.js"
+    "start": "TZ=UTC nodemon --exec babel-node -- src/index.js"
   },
   "dependencies": {
     "@babel/cli": "^7.2.3",
