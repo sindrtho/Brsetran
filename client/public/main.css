@@ -11,6 +11,22 @@ html, body {
 	height: 100%;
 }
 
+.grid-container {
+	display: grid;
+	grid-template-columns: auto auto auto auto auto auto auto;
+	padding: 10px;
+
+}
+
+.grid-item {
+	border: 1px solid black;
+	text-align: center;
+}
+
+.callendar-day {
+	height: 200px;
+}
+
 .wrapper {
 	height: 100%;
 }

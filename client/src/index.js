@@ -7,7 +7,7 @@ import { Ukeliste } from './Components/Ukeliste/Ukeliste.js';
 import NavBar from './Components/NavBar/NavBar.js';
 import Footer from './Components/Footer/Footer.js';
 import NyttOppdrag from './Components/NyttOppdrag/NyttOppdrag.js';
-
+import Kalender from './Components/Kalender/Kalender.js';
 
 const root = document.getElementById('root');
 if(root) {
@@ -15,6 +15,7 @@ if(root) {
 		<BrowserRouter>
 			<div className="wrapper">
 				<Route path='/' component={NavBar}/>
+				<Route exact path='/' component={Kalender}/>
 				<Route path='/oppdrag/:id' component={Oppdrag}/>
 				<Route path='/ukeliste' component={Ukeliste}/>
 				<Route path='/nyttoppdrag' component={NyttOppdrag}/>
