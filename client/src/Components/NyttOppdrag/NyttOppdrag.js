@@ -26,7 +26,9 @@ export default class NyttOppdrag extends Component {
 
 	render () {
 		return (
-			<div>
+			<div className="card">
+			<div className="card-body">
+				<h3 className="card-title">Nytt oppdrag</h3>
 				<form action="/mission" method="POST" name="newassignmentform">
 					<div className="form-group">
 						<label htmlFor="tittel">Tittel:</label>
@@ -55,6 +57,7 @@ export default class NyttOppdrag extends Component {
 
 					<button type="submit" className="btn btn-primary">Submit</button>
 				</form>
+				</div>
 			</div>
 		)
 	}
