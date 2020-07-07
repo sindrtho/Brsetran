@@ -18,7 +18,7 @@ let config =
     },
     test: {
         connectionLimit: 2,
-        host: '10.0.0.131',
+        host: 'localhost',
         user: 'set user in private.config.js',
         password: 'set password in private.config.js',
         database: 'brtest',
