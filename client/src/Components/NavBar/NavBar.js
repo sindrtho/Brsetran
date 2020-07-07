@@ -11,38 +11,21 @@ import { OppdragListe } from '../OppdragListe/OppdragListe.js';
 import { oppdragService } from '../../Services/oppdragService.js'
 import { Card } from '../../widgets.js';
 
-//Needs more functionality!
-
-/*export default class NavBar extends Component {
-	render () {
-		return(
-			<div className="navbar">
-			<NavLink to={'/nyttoppdrag'}>
-				<button className="btn-primary">Registrer Nytt Oppdrg</button>
-			</NavLink>
-
-			<NavLink to={'/ukeliste'}>
-				<button className="btn-primary">Ukeliste</button>
-			</NavLink>
-			</div>
-		)
-	}
-}*/
-
 
 export default class NavBar extends Component {
 	render () {
 		return (
-			<nav className="navbar navbar-inverse">
-			  <div className="container-fluid">
-			    <div className="navbar-header">
-			      <a className="navbar-brand" href="/">Brødrene Sætran Arbeidskallender</a>
-			    </div>
-			    <ul className="nav navbar-nav">
-			      <li><a href="/nyttoppdrag">Nytt Oppdrag</a></li>
-			      <li><a href="/ukeliste">Ukeliste</a></li>
-			    </ul>
-			  </div>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  			<a class="navbar-brand" href="/">Brødrene Sætran Arbeidskallender</a>
+  			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    			<span class="navbar-toggler-icon"></span>
+  			</button>
+  			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    			<div class="navbar-nav">
+      			<a class="nav-item nav-link active" href="/nyttoppdrag">Nytt Oppdrag <span class="sr-only">(current)</span></a>
+						<a class="nav-item nav-link active" href="/ukeliste">Ukeliste <span class="sr-only">(current)</span></a>
+    			</div>
+  			</div>
 			</nav>
 		)
 	}
