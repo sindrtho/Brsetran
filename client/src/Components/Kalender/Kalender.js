@@ -122,12 +122,18 @@ export default class Kalender extends Component {
 					}
 					{
 						this.state.month.map((e, i) => {
-							return (
-								<div className="grid-item callendar-day" key={i}>
-									{e.getDate()+'.'+(e.getMonth()+1)}
-									<KalenderDay/>
-								</div>
-							)
+							if(e.getMonth() == this.state.currentDate.getMonth()) {
+								return (
+									<div className="grid-item callendar-day" key={i}>
+										{e.getDate()}
+										<KalenderDay/>
+									</div>
+								)
+							} else {
+								return (
+									<div style={{"border": "solid 1px", "backgroundColor": "gray"}}></div>
+								)
+							}
 						})
 					}
 				</div>
