@@ -13,7 +13,7 @@ html, body {
 
 .grid-container {
 	display: grid;
-	grid-template-columns: auto auto auto auto auto auto auto;
+	grid-template-columns: 14.28% 14.28% 14.28% 14.28% 14.28% 14.28% 14.28%;
 	padding: 10px;
 
 }
@@ -21,10 +21,12 @@ html, body {
 .grid-item {
 	border: 1px solid black;
 	text-align: center;
+	width: auto;
 }
 
 .callendar-day {
 	height: 200px;
+	overflow-y: scroll;
 }
 
 .wrapper {
@@ -34,7 +36,9 @@ html, body {
 .sammendrag {
 	color: black;
 	margin: 2px;
-	border: solid black 2px;
+	border: 1px solid;
+	border-radius: 25px;
+	overflow-x: wrap;
 }
 
 .ukelisteNavbar {
@@ -66,7 +70,6 @@ html, body {
 }
 
 .dagslistecontent {
-	overflow-y: scroll;
 	height: 95%;
 }
 

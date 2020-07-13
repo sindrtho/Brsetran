@@ -2,6 +2,8 @@ use brtest;
 
 DROP TABLE IF EXISTS oppdrag;
 DROP TABLE IF EXISTS rute;	
+DROP TABLE IF EXISTS admin;
+DROP TABLE IF EXISTS bruker;
 
 CREATE TABLE rute (
 	rute_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -18,6 +20,20 @@ CREATE TABLE oppdrag(
 	dato DATE,
 	utfort BOOLEAN DEFAULT false,
 	FOREIGN KEY (rute_id) REFERENCES rute(rute_id)
+);
+
+CREATE TABLE bruker(
+	bruker_id INT PRIMARY KEY AUTO_INCREMENT,
+	brukernavn VARCHAR(32) UNIQUE NOT NULL,
+	password VARCHAR(256) NOT NULL,
+	salt VARCHAR(64),
+	fornavn VARCHAR(32),
+	etternavn VARCHAR(32)
+);
+
+CREATE TABLE admin(
+	bruker_id INT PRIMARY KEY,
+	FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id)
 );
 
 CREATE TRIGGER datetrigger

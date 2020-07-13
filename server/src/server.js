@@ -4,6 +4,8 @@ import AdminDao from './dao/adminDao.js';
 import OppdragDao from './dao/oppdragDao.js';
 import path from 'path';
 import bodyParser from 'body-parser';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
 export function create_app(pool) {
 	const app = express();
@@ -70,6 +72,13 @@ export function create_app(pool) {
 		oppdragdao.addAssignment(newAssignment, (status, data) => {
 			res.status(status);
 			res.redirect('/ukeliste');
+		});
+	});
+
+	app.post('/login', (req, res) => {
+		jwt.sign({"a":1, "b":2,"c":3}, {expiresIn:'30d'}, (err, token) => {
+			res.status(200);
+			res.json({token});
 		});
 	});
 

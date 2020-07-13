@@ -8,6 +8,8 @@ import NavBar from './Components/NavBar/NavBar.js';
 import Footer from './Components/Footer/Footer.js';
 import NyttOppdrag from './Components/NyttOppdrag/NyttOppdrag.js';
 import Kalender from './Components/Kalender/Kalender.js';
+import Login from './Components/Login/Login.js';
+import ManageUsers from './Components/ManageUsers/ManageUsers.js';
 
 const root = document.getElementById('root');
 if(root) {
@@ -19,6 +21,7 @@ if(root) {
 				<Route path='/oppdrag/:id' component={Oppdrag}/>
 				<Route path='/ukeliste' component={Ukeliste}/>
 				<Route path='/nyttoppdrag' component={NyttOppdrag}/>
+				<Route path='/login' component={Login}/>
 				<Route path='/' component={Footer}/>
 			</div>
 		</BrowserRouter>,

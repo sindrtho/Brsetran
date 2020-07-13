@@ -11,6 +11,11 @@ import { OppdragListe } from '../OppdragListe/OppdragListe.js';
 import { oppdragService } from '../../Services/oppdragService.js'
 import { Card } from '../../widgets.js';
 
+// Returns a string of the Date from date object.
+Date.prototype.getFullDate = function() {
+	return this.getFullYear()+'-'+(this.getMonth()+1)+'-'+this.getDate();
+}
+
 Date.prototype.getWholeMonth = function() {
 	var tmp = new Date(this.getTime());
 	var currentMonth = tmp.getMonth();
@@ -124,14 +129,16 @@ export default class Kalender extends Component {
 						this.state.month.map((e, i) => {
 							if(e.getMonth() == this.state.currentDate.getMonth()) {
 								return (
-									<div className="grid-item callendar-day" key={i}>
+									<div className="grid-item" key={i}>
 										{e.getDate()}
-										<KalenderDay/>
+										<div className="grid-item callendar-day">
+											<OppdragListe date={e} filters={this.state.filters}/>
+										</div>
 									</div>
 								)
 							} else {
 								return (
-									<div style={{"border": "solid 1px", "backgroundColor": "gray"}}></div>
+									<div key={i} style={{"border": "solid 1px", "backgroundColor": "gray"}} onClick={() => {e.getMonth() > this.state.currentDate.getMonth() ? this.nextMonth() : this.prevMonth()}}></div>
 								)
 							}
 						})
@@ -175,20 +182,60 @@ export default class Kalender extends Component {
 		this.setState({month: wholeMonth, currentDate: prevmonth});
 	}
 
-	componentDidUpdate() {
+	componentDidUpdate(prevProps, prevState) {
 
 	}
 
 }
 
 class KalenderDay extends Component {
+	state = {
+		cases: []
+	}
+
 	render () {
 		return (
-			<div></div>
+			<div>
+				{
+					this.state.cases.map((e, i) => {
+						return (
+							<KalenderItem key={i} missionId={e.oppdrag_id} color={colorTable[e.rute_id]} title={e.tittel} nr={e.rute_id}/>
+						)
+					})
+				}
+			</div>
 		)
+	}
+
+	mounted() {
+		var date = this.props.date;
+		oppdragService.getByDate(date.getFullDate())
+			.then(e => this.setState({cases: e}))
+			.catch(err => console.log(err))
+	}
+
+	componentDidUpdate(prevProps, prevState) {
+		if(prevProps.date != this.props.date) {
+			var date = this.props.date;
+			oppdragService.getByDate(date.getFullDate())
+				.then(e => this.setState({cases: e}))
+				.catch(err => console.log(err))
+		}
 	}
 }
 
 class KalenderItem extends Component {
+	render() {
+		return (
+			<a href={"/oppdrag/"+this.props.missionId}>
+				<div style={{"backgroundColor": this.props.color, "border": "solid 1px"}}>
+					{this.props.title} rute:{this.props.nr}
+				</div>
+			</a>
+		)
+	}
 
+	componentDidUpdate() {
+
+	}
 }

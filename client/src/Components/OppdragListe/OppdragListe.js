@@ -56,7 +56,8 @@ export class OppdragListe extends Component {
 	render () {
 		return (
 			<div className="dagsliste">
-			<p>{Weekdays[new Date(this.state.date).getDay()]} {new Date(this.state.date).getDateForPrint()}</p>
+			{//<p>{Weekdays[new Date(this.state.date).getDay()]} {new Date(this.state.date).getDateForPrint()}</p>
+		}
 				<div className="dagslistecontent">
 				{
 					this.state.oppdrag.map(e => {
@@ -152,11 +153,9 @@ export class Sammendrag extends Component {
 		return (
 		<NavLink to={'/oppdrag/'+this.props.missionid}>
 			<div className="sammendrag">
-				<Card title={this.props.tittel} c={this.props.utfort==1 ? "white" : colorTable[this.props.ruteid]}>
-					<div className="content">
-						<p className="summaryRoute">Rute {this.props.ruteid}: {this.props.rutenavn}</p>
+					<div className="content" style={{"backgroundColor": this.props.utfort==1 ? "white" : colorTable[this.props.ruteid], "borderRadius": "25px"}}>
+						{this.props.tittel} Rute {this.props.ruteid}
 					</div>
-				</Card>
 			</div>
 		</NavLink>
 		)
