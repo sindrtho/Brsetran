@@ -10,9 +10,13 @@ import NyttOppdrag from './Components/NyttOppdrag/NyttOppdrag.js';
 import Kalender from './Components/Kalender/Kalender.js';
 import Login from './Components/Login/Login.js';
 import ManageUsers from './Components/ManageUsers/ManageUsers.js';
+import NewUser from './Components/NewUser/NewUser.js';
 
 const root = document.getElementById('root');
 if(root) {
+	var loggedin = false;
+	if(localStorage.loggedin)
+		loggedin = true;
 	ReactDOM.render(
 		<BrowserRouter>
 			<div className="wrapper">
@@ -22,6 +26,7 @@ if(root) {
 				<Route path='/ukeliste' component={Ukeliste}/>
 				<Route path='/nyttoppdrag' component={NyttOppdrag}/>
 				<Route path='/login' component={Login}/>
+				<Route path='/registrer' component={NewUser}/>
 				<Route path='/' component={Footer}/>
 			</div>
 		</BrowserRouter>,

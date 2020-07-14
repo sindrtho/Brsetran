@@ -9,10 +9,17 @@ import ReactDOM from 'react-dom';
 import { OppdragListe } from '../OppdragListe/OppdragListe.js';
 
 import { oppdragService } from '../../Services/oppdragService.js'
+import { brukerService } from '../../Services/brukerService.js'
 import { Card } from '../../widgets.js';
 
 
 export default class NavBar extends Component {
+
+	state = {
+		logged: false,
+		admin: false
+	}
+
 	render () {
 		return (
 			<nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -22,11 +29,31 @@ export default class NavBar extends Component {
   			</button>
   			<div className="collapse navbar-collapse" id="navbarNavAltMarkup">
     			<div className="navbar-nav">
-      			<a className="nav-item nav-link active" href="/nyttoppdrag">Nytt Oppdrag <span className="sr-only">(current)</span></a>
-						<a className="nav-item nav-link active" href="/ukeliste">Ukeliste <span className="sr-only">(current)</span></a>
+	      			<a className="nav-item nav-link active" href="/nyttoppdrag">Nytt Oppdrag <span className="sr-only">(current)</span></a>
+					<a className="nav-item nav-link active" href="/ukeliste">Ukeliste <span className="sr-only">(current)</span></a>
+    				{this.state.admin && <a className="nav-item nav-link active" href="/registrer"><button className="btn btn-primary"><i className="glyphicon glyphicon-user"></i>Ny Bruker<span className="sr-only">(current)</span></button></a>}
+    				{this.state.logged && <a className="nav-item nav-link active" href="/"><button className="btn btn-danger" onClick={e => this.loggut()}><i className="glyphicon glyphicon-remove"></i> Logg Ut<span className="sr-only">(current)</span></button></a>}
     			</div>
   			</div>
 			</nav>
 		)
+	}
+
+	loggut() {
+		localStorage.clear();
+		brukerService.logout()
+			.then(res => console.log(res))
+			.catch(err => console.log(err))
+	}
+
+	mounted() {
+		brukerService.getInfo()
+			.then(res => this.setState({logged: res.logged, admin: res.admin}))
+			.catch(err => console.log(err))
+	}
+
+	componentDidUpdate(prevProps, prevState) {
+		if(prevProps.logged != this.props.logged)
+			this.setState({logged: this.props.logged})
 	}
 }

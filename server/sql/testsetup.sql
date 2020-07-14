@@ -25,8 +25,7 @@ CREATE TABLE oppdrag(
 CREATE TABLE bruker(
 	bruker_id INT PRIMARY KEY AUTO_INCREMENT,
 	brukernavn VARCHAR(32) UNIQUE NOT NULL,
-	password VARCHAR(256) NOT NULL,
-	salt VARCHAR(64),
+	passord VARCHAR(256) NOT NULL,
 	fornavn VARCHAR(32),
 	etternavn VARCHAR(32)
 );
@@ -56,3 +55,7 @@ INSERT INTO oppdrag (tittel, beskrivelse, rute_id, dato, utfort) VALUES
 	('Glassmalerier', 'Glassmalerier fra Ålesund', 2, DATE(now()), true),
 	('Biler', '3 nye biler til kommunearbeidere fra Trondheim', 5, DATE(now()), true),
 	('Treverk', 'Treverk til Molde', 2, DATE(now()), true);
+
+INSERT INTO bruker (brukernavn, fornavn, etternavn, passord) VALUES ("sindrtho", "Sindre", "Thomassen", "$2b$10$pIka8NNW1fRI1Isl9BizxOxxaJxoSE8GESpr.QjXEGN36vzpd7crK");
+
+INSERT INTO admin VALUES (1);

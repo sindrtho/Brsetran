@@ -26,35 +26,38 @@ export default class NyttOppdrag extends Component {
 
 	render () {
 		return (
-			<div>
-				<form action="/mission" method="POST" name="newassignmentform">
-					<div className="form-group">
-						<label htmlFor="tittel">Tittel:</label>
-						<input type="text" className="form-control" name="tittel" id="tittel" maxLength="64" required/>
-					</div>
-					<div className="form-group">
-						<label htmlFor="beskrivelse">Beskrivelse:</label>
-						<textarea className="form-control" name="beskrivelse" id="beskrivelse" maxLength="512" required></textarea>
-					</div>
-					<div className="form-group">
-						<label htmlFor="rute">Rute:</label>
-						<select className="form-control" name="rute" id="rute">
-							{
-								this.state.ruter.map(e => {
-									return (
-										<option key={e.rute_id}>{e.rute_id} ({e.rute_navn})</option>
-									)
-								})
-							}
-						</select>
-					</div>
-					<div className="form-group">
-						<label htmlFor="dato">Dato:</label>
-						<input type="date" className="form-control" name="dato" id="dato" defaultValue={this.state.today} required></input>
-					</div>
+			<div className="container">
+				<br/>
+				<div className="container-fluid center-align" style={{"width":"80%"}}>
+					<form action="/mission" method="POST" name="newassignmentform">
+						<div className="form-group">
+							<label htmlFor="tittel">Tittel:</label>
+							<input type="text" className="form-control" name="tittel" id="tittel" maxLength="64" required/>
+						</div>
+						<div className="form-group">
+							<label htmlFor="beskrivelse">Beskrivelse:</label>
+							<textarea className="form-control" name="beskrivelse" id="beskrivelse" maxLength="512" required></textarea>
+						</div>
+						<div className="form-group">
+							<label htmlFor="rute">Rute:</label>
+							<select className="form-control" name="rute" id="rute">
+								{
+									this.state.ruter.map(e => {
+										return (
+											<option key={e.rute_id}>{e.rute_id} ({e.rute_navn})</option>
+										)
+									})
+								}
+							</select>
+						</div>
+						<div className="form-group">
+							<label htmlFor="dato">Dato:</label>
+							<input type="date" className="form-control" name="dato" id="dato" defaultValue={this.state.today} required></input>
+						</div>
 
-					<button type="submit" className="btn btn-primary">Submit</button>
-				</form>
+						<button type="submit" className="btn btn-primary">Lagre</button>
+					</form>
+				</div>
 			</div>
 		)
 	}

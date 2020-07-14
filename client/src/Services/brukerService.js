@@ -1,5 +1,5 @@
 import axios from 'axios';
-axios.interceptors.response.use(response => response.data);
+//axios.interceptors.response.use(response => response.data);
 
 function config() {
     let token = localStorage.getItem('authToken');
@@ -14,9 +14,22 @@ function config() {
 }
 
 class BrukerService {
-	login(username, password) {
-		let data = {"username":username, "password":password};
+	login(brukernavn, passord) {
+		let data = {"brukernavn":brukernavn, "passord":passord};
 		return axios.post('/login', data);
+	}
+
+	logout() {
+		return axios.post('/logout');
+	}
+
+	getInfo() {
+		return axios.get('/isadmin');
+	}
+
+	addInitialUser(fornavn, etternavn, brukernavn, hash) {
+		let data = {"fornavn":fornavn, "etternavn":etternavn, "brukernavn":brukernavn, "passord":hash};
+		return axios.post('/specialuser')
 	}
 }
 
