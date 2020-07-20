@@ -27,9 +27,12 @@ class BrukerService {
 		return axios.get('/isadmin');
 	}
 
-	addInitialUser(fornavn, etternavn, brukernavn, hash) {
-		let data = {"fornavn":fornavn, "etternavn":etternavn, "brukernavn":brukernavn, "passord":hash};
-		return axios.post('/specialuser')
+	getAll() {
+		return axios.get('/allusers');
+	}
+
+	deleteUser(id, admin) {
+		return axios.put('/user/remove/'+id, {"admin": admin});
 	}
 }
 

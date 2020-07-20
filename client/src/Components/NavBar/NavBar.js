@@ -31,7 +31,9 @@ export default class NavBar extends Component {
     			<div className="navbar-nav">
 	      			<a className="nav-item nav-link active" href="/nyttoppdrag">Nytt Oppdrag <span className="sr-only">(current)</span></a>
 					<a className="nav-item nav-link active" href="/ukeliste">Ukeliste <span className="sr-only">(current)</span></a>
-    				{this.state.admin && <a className="nav-item nav-link active" href="/registrer"><button className="btn btn-primary"><i className="glyphicon glyphicon-user"></i>Ny Bruker<span className="sr-only">(current)</span></button></a>}
+    				{this.state.admin && <a className="nav-item nav-link active" href="/administrer"><button className="btn btn-primary"><i className="glyphicon glyphicon-wrench"></i> Administrer Brukere<span className="sr-only">(current)</span></button></a>}
+    				{this.state.admin && <a className="nav-item nav-link active" href="/registrer"><button className="btn btn-primary"><i className="glyphicon glyphicon-user"></i> Ny Bruker<span className="sr-only">(current)</span></button></a>}
+    				{this.state.logged && <a className="nav-item nav-link active" href="/profil"><button className="btn btn-primary"><i className="glyphicon glyphicon-user"></i> Profil<span className="sr-only">(current)</span></button></a>}
     				{this.state.logged && <a className="nav-item nav-link active" href="/"><button className="btn btn-danger" onClick={e => this.loggut()}><i className="glyphicon glyphicon-remove"></i> Logg Ut<span className="sr-only">(current)</span></button></a>}
     			</div>
   			</div>

@@ -11,6 +11,7 @@ import Kalender from './Components/Kalender/Kalender.js';
 import Login from './Components/Login/Login.js';
 import ManageUsers from './Components/ManageUsers/ManageUsers.js';
 import NewUser from './Components/NewUser/NewUser.js';
+import UserPage from './Components/UserPage/UserPage.js';
 
 const root = document.getElementById('root');
 if(root) {
@@ -27,6 +28,8 @@ if(root) {
 				<Route path='/nyttoppdrag' component={NyttOppdrag}/>
 				<Route path='/login' component={Login}/>
 				<Route path='/registrer' component={NewUser}/>
+				<Route path='/administrer' component={ManageUsers}/>
+				<Route path='/profil' component={UserPage}/>
 				<Route path='/' component={Footer}/>
 			</div>
 		</BrowserRouter>,

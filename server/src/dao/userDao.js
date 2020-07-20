@@ -7,7 +7,7 @@ export default class UserDao extends Dao {
 	}
 
 	getAll(callback) {
-		super.query("SELECT * FROM bruker", [], callback);
+		super.query("SELECT *, bruker_id IN (SELECT * FROM admin) AS admin FROM bruker", [], callback);
 	}
 
 	login(username, password, callback) {
@@ -33,5 +33,13 @@ export default class UserDao extends Dao {
 
 	newAdmin(id, callback) {
 		super.query("INSERT INTO admin VALUES (?)", [id], callback);
+	}
+
+	delUser(id, callback) {
+		super.query("DELETE FROM bruker WHERE bruker_id=?", [id], callback);
+	}
+
+	delAdmin(id, callback) {
+		super.query("DELETE FROM admin WHERE bruker_id=?", [id], callback);
 	}
 }

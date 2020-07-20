@@ -53,7 +53,7 @@ export default class Login extends Component {
 
 	login() {
 		brukerService.login(this.username, this.password)
-			.then(res => {console.log(res); localStorage.setItem("loggedin", true); localStorage.setItem("token", res); window.location = "http://localhost:4000/";})	// Redirect must be done properly
+			.then(res => {console.log(res); localStorage.setItem("loggedin", true); /*localStorage.setItem("token", res);*/ window.location = "http://localhost:4000/";})	// Redirect must be done properly
 			.catch(err => {alert(err.message); return false})
 	}
 }
